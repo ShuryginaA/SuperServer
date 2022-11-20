@@ -14,4 +14,5 @@ public interface AuthenticationService {
     void autoLogin(String username, String password);
 
     void updateAuthoritiesInSecurityContext(Authentication authentication);
+
 }

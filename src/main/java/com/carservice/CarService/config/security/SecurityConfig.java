@@ -3,6 +3,7 @@ package com.carservice.CarService.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,14 +30,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/orders/**").hasAnyAuthority("ADMIN","MANAGER","MASTER")
-//                .antMatchers("/orders/**").hasRole("ADMIN","MANAGER","MASTER")
-                .antMatchers("/customer/getUserOrders").hasAuthority("CUSTOMER")
-                .antMatchers("/customer/**").hasAuthority("CUSTOMER")
-                .antMatchers("/", "/**","/auth").permitAll();
-//                .anyRequest().authenticated()
+        httpSecurity.
+                authorizeRequests()
+                .antMatchers("/delete/**").hasAuthority("ADMIN")
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
+//        httpSecurity
+//                .csrf().disable()
+//                .authorizeRequests()
+////                .antMatchers(HttpMethod.POST,"/auth").anonymous()
+//                .antMatchers("/", "/**").anonymous()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .httpBasic();
+//                .antMatchers("/orders/**").hasAnyAuthority("ADMIN","MANAGER","MASTER")
+////                .antMatchers("/orders/**").hasRole("ADMIN","MANAGER","MASTER")
+//                .antMatchers("/customer/getUserOrders").hasAuthority("CUSTOMER")
+//                .antMatchers("/customer/**").hasAuthority("CUSTOMER");
+//                .anyRequest().authenticated();
 //                .and()
 //                .formLogin().loginPage("/login")
 //                .and()

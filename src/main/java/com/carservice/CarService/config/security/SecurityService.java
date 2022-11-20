@@ -18,6 +18,7 @@ limitations under the License.
 
 package com.carservice.CarService.config.security;
 
+import com.carservice.CarService.viewModel.LoginForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class SecurityService  {
 	AuthenticationManager authenticationManager;
 	
 
-	public Authentication authenticate(String authData) {
+	public Authentication authenticate(LoginForm authData) {
 
 		UsernamePasswordAuthenticationToken authRequest =
-				new UsernamePasswordAuthenticationToken("admin", "admin");
+				new UsernamePasswordAuthenticationToken(authData.getUsername(), authData.getPassword());
 		Authentication result = authenticationManager.authenticate(authRequest);
 		
 		if(result == null) {

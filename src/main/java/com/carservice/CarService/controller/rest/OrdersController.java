@@ -22,12 +22,17 @@ public class OrdersController {
         return orderService.getAllOrders().stream()
                 .map(OrderDto::new).collect(Collectors.toList());
     }
+
     @GetMapping("/allOrdersTest")
     public String getAllItemsTest() {
         return "Here will be list of orders";
     }
+
     @GetMapping("/getUserOrders")
     public String getUserOrders() {
         return "Here will be concrete user orders";
     }
+
+
+
 }

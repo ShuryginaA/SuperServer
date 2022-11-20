@@ -10,20 +10,16 @@ import com.carservice.CarService.validator.UserValidator;
 import com.carservice.CarService.viewModel.LoginForm;
 import com.carservice.CarService.viewModel.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
-import static com.carservice.CarService.data.Role.RoleName.*;
 
 @RestController
 public class AuthController {
@@ -49,9 +45,12 @@ public class AuthController {
     public String login(Model model, String error, String logout) {
         return "login";
     }
-    @PostMapping("/auth")
-    public Authentication authenticate (String authData) {
 
+    @PostMapping("/auth")
+    public Authentication authenticate (@RequestBody LoginForm authData) {
+        if (authenticationService.isAuthenticated()){
+            return SecurityContextHolder.getContext().getAuthentication();
+        }
         return securityService.authenticate(authData);
     }
 
@@ -61,17 +60,16 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String processRegistration(@ModelAttribute("userDTO") RegistrationForm form, BindingResult bindingResult)
+    public String processRegistration(@RequestBody RegistrationForm form)
             throws AuthenticationException {
-        userValidator.validate(form, bindingResult);
-        if (bindingResult.hasErrors()) return "registration";
+//        userValidator.validate(form, bindingResult);
+//        if (bindingResult.hasErrors()) return "registration";
         User user = form.toUser();
         user.setRoles(Collections.singletonList(userService.findRoleByName(Role.RoleName.CUSTOMER)));
         String unhashedPassord = user.getPassword();
         userService.saveUser(user);
         authenticationService.autoLogin(user.getUsername(), unhashedPassord);
-//        return "redirect:/userPage";
-        return "userPage";
+        return "Success";
 
     }
     @GetMapping("/logout")

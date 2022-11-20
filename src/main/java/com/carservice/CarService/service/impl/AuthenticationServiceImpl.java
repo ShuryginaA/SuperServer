@@ -1,5 +1,6 @@
 package com.carservice.CarService.service.impl;
 
+import com.carservice.CarService.data.Role;
 import com.carservice.CarService.service.api.AuthenticationService;
 import com.carservice.CarService.service.api.UserService;
 import org.slf4j.Logger;
@@ -69,4 +70,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
     }
+
+//    public Role.RoleName getRoleFromAuth(Authentication authentication){
+//
+//    }
 }

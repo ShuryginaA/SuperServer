@@ -21,7 +21,6 @@ public class RegistrationForm {
     @NotNull
     @NotEmpty
     private String password;
-    private String confirmingPassword;
 
     @NotNull
     @NotEmpty

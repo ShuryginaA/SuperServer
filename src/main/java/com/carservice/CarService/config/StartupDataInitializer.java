@@ -38,35 +38,24 @@ public class StartupDataInitializer implements ApplicationListener<ContextRefres
     private void createDefaultUsersAndRoles() throws AuthenticationException {
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
-        Role adminRole = createRoleIfNotFound(ADMIN, adminPrivileges);
-        Role managerRole = createRoleIfNotFound(MANAGER, Collections.singletonList(readPrivilege));
-        Role masterRole = createRoleIfNotFound(MASTER, Collections.singletonList(readPrivilege));
-        createRoleIfNotFound(CUSTOMER, Collections.singletonList(readPrivilege));
+        List<Privilege> allPrivileges = Arrays.asList(readPrivilege, writePrivilege);
+        Role managerRole = createRoleIfNotFound(MANAGER, allPrivileges);
+        Role masterRole = createRoleIfNotFound(MASTER, allPrivileges);
+        createRoleIfNotFound(CUSTOMER, allPrivileges);
 
-        User admin = new User("admin",
-                "admin",
-                "adminFullname",
-                null,
-                null
-        );
         User manager = new User("manager",
                 "manager",
                 "managerFullName",
                 null,
-                null
+                "manager@mail.ru"
         );
         User master = new User("master",
                 "master",
                 "masterFullName",
                 null,
-                null
+                "master@mail.ru"
         );
-        admin.setRoles(Collections.singletonList(adminRole));
-        admin.setEnabled(true);
-        if (!userService.ifUserExist("admin")) {
-            userService.saveUser(admin);
-        }
+
         manager.setRoles(Collections.singletonList(managerRole));
         manager.setEnabled(true);
         if (!userService.ifUserExist("manager")) {
