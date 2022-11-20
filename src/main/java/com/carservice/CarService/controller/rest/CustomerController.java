@@ -16,4 +16,9 @@ public class CustomerController {
     public String getUserOrders() {
         return "Here will be concrete user orders";
     }
+
+    @GetMapping("/getFreeTime")
+    public String getFreeTime() {
+        return "Here will be concrete user orders";
+    }
 }

@@ -1,6 +1,5 @@
 package com.carservice.CarService.service.api;
 
-import com.carservice.CarService.data.Privilege;
 import com.carservice.CarService.data.Role;
 import com.carservice.CarService.data.User;
 import com.carservice.CarService.exceptions.AuthenticationException;
@@ -24,10 +23,6 @@ public interface UserService {
     Role findRoleByName(Role.RoleName name);
 
     void saveRole(Role role);
-
-    Privilege findPrivilegeByName(String name);
-
-    void savePrivilege(Privilege privilege);
 
     List<Role.RoleName> findUserRoleByUsername(String username);
 }

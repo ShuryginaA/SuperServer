@@ -3,6 +3,7 @@ package com.carservice.CarService.service.impl;
 import com.carservice.CarService.data.Role;
 import com.carservice.CarService.service.api.AuthenticationService;
 import com.carservice.CarService.service.api.UserService;
+import org.hibernate.annotations.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -71,7 +73,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
     }
 
-//    public Role.RoleName getRoleFromAuth(Authentication authentication){
-//
-//    }
+    @Override
+    public String getRoleFromAuth(Authentication authentication){
+        Optional<? extends GrantedAuthority> roleName=authentication.getAuthorities().stream().findFirst();
+        if(roleName.isPresent()){
+            return roleName.get().getAuthority();
+        }
+        return new NoSuchFieldError().toString();
+    }
 }

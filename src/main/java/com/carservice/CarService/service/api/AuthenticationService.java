@@ -15,4 +15,5 @@ public interface AuthenticationService {
 
     void updateAuthoritiesInSecurityContext(Authentication authentication);
 
+    public String getRoleFromAuth(Authentication authentication);
 }

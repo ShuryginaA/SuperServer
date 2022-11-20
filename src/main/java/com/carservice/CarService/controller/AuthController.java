@@ -3,6 +3,7 @@ package com.carservice.CarService.controller;
 import com.carservice.CarService.config.security.SecurityService;
 import com.carservice.CarService.data.Role;
 import com.carservice.CarService.data.User;
+import com.carservice.CarService.data.dto.AuthDto;
 import com.carservice.CarService.exceptions.AuthenticationException;
 import com.carservice.CarService.service.api.AuthenticationService;
 import com.carservice.CarService.service.api.UserService;
@@ -47,11 +48,16 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public Authentication authenticate (@RequestBody LoginForm authData) {
+    public AuthDto authenticate (@RequestBody LoginForm authData) {
         if (authenticationService.isAuthenticated()){
-            return SecurityContextHolder.getContext().getAuthentication();
+            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+            new AuthDto(authenticationService.getRoleFromAuth(
+                    authentication),
+                    userService.findUserByUsername(authData.getUsername()).getId());
         }
-        return securityService.authenticate(authData);
+        return new AuthDto(authenticationService.getRoleFromAuth(
+                securityService.authenticate(authData)),
+                userService.findUserByUsername(authData.getUsername()).getId());
     }
 
     @GetMapping("/registration")

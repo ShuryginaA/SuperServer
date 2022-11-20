@@ -68,9 +68,6 @@ public class User implements UserDetails {
         List<String> authorities = new ArrayList<>(roles.size());
         for (Role role: roles) {
             authorities.add(role.getName().toString());
-            for (Privilege privilege: role.getPrivileges()) {
-                authorities.add(privilege.getName());
-            }
         }
         return authorities;
     }

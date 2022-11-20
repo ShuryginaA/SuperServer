@@ -1,15 +1,12 @@
 package com.carservice.CarService.service.impl;
 
-import com.carservice.CarService.data.Privilege;
 import com.carservice.CarService.data.Role;
 import com.carservice.CarService.data.User;
 import com.carservice.CarService.exceptions.AuthenticationException;
-import com.carservice.CarService.repositories.PrivilegeRepository;
 import com.carservice.CarService.repositories.RoleRepository;
 import com.carservice.CarService.repositories.UserRepository;
 import com.carservice.CarService.service.api.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +27,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private PrivilegeRepository privilegeRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -104,15 +97,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void saveRole(Role role) {
         roleRepository.save(role);
-    }
-
-    @Override
-    public Privilege findPrivilegeByName(String name) {
-        return privilegeRepository.findByName(name);
-    }
-
-    public void savePrivilege(Privilege privilege) {
-        privilegeRepository.save(privilege);
     }
 
     @Override

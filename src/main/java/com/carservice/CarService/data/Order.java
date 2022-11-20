@@ -8,6 +8,12 @@ import javax.persistence.*;
 @Entity(name="orders")
 public class Order {
 
+    public Order(String name, User user, Status status) {
+        this.name = name;
+        this.user = user;
+        this.status = status;
+    }
+
     public enum Status{
        CREATED, IN_PROGRESS,READY
     }

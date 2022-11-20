@@ -1,6 +1,5 @@
 package com.carservice.CarService.config;
 
-import com.carservice.CarService.data.Privilege;
 import com.carservice.CarService.data.Role;
 import com.carservice.CarService.data.User;
 import com.carservice.CarService.exceptions.AuthenticationException;
@@ -36,12 +35,9 @@ public class StartupDataInitializer implements ApplicationListener<ContextRefres
     }
 
     private void createDefaultUsersAndRoles() throws AuthenticationException {
-        Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        List<Privilege> allPrivileges = Arrays.asList(readPrivilege, writePrivilege);
-        Role managerRole = createRoleIfNotFound(MANAGER, allPrivileges);
-        Role masterRole = createRoleIfNotFound(MASTER, allPrivileges);
-        createRoleIfNotFound(CUSTOMER, allPrivileges);
+        Role managerRole = createRoleIfNotFound(MANAGER);
+        Role masterRole = createRoleIfNotFound(MASTER);
+        createRoleIfNotFound(CUSTOMER);
 
         User manager = new User("manager",
                 "manager",
@@ -71,21 +67,10 @@ public class StartupDataInitializer implements ApplicationListener<ContextRefres
     }
 
     @Transactional
-    Privilege createPrivilegeIfNotFound(String name) {
-        Privilege privilege = userService.findPrivilegeByName(name);
-        if (privilege == null) {
-            privilege = new Privilege(name);
-            userService.savePrivilege(privilege);
-        }
-        return privilege;
-    }
-
-    @Transactional
-    Role createRoleIfNotFound(Role.RoleName name, List<Privilege> privileges) {
+    Role createRoleIfNotFound(Role.RoleName name) {
         Role role = userService.findRoleByName(name);
         if (role == null) {
             role = new Role(name);
-            role.setPrivileges(privileges);
             userService.saveRole(role);
         }
         return role;

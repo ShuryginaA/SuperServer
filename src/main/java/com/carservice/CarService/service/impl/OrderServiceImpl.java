@@ -6,6 +6,7 @@ import com.carservice.CarService.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Service
@@ -15,8 +16,9 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public void submit(Order order) {
+    public String submit(Order order) {
         orderRepository.save(order);
+        return "Success";
     }
 
     @Override
