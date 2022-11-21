@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 @Entity(name="users")
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private final String username;
+    private String username;
     private String password;
     private String fullName;
     private String phoneNumber;

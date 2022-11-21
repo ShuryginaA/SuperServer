@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,6 +25,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void submit(List<Order> orders) {
         orderRepository.saveAll(orders);
+    }
+
+    @Override
+    public String changeStatus(Long id, String newStatus) {
+        Optional<Order> oldOrder =orderRepository.findById(id);
+        if(oldOrder.isPresent()){
+            Order tmpOrder=oldOrder.get();
+            tmpOrder.setStatus(Order.Status.valueOf(newStatus));
+            orderRepository.save(tmpOrder);
+            return "Success";
+        }
+        return "Error occurred";
     }
 
     @Override

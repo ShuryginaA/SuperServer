@@ -28,9 +28,10 @@ public class OrdersController {
 
 
     @GetMapping("/allOrders")
-    public List<OrderDto> getAllItems() {
-        return orderService.getAllOrders().stream()
-                .map(OrderDto::new).collect(Collectors.toList());
+    public List<OrderDto> getAllOrders() {
+        List<Order> o=orderService.getAllOrders();
+
+         return  o.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     @PostMapping("{clientId}/bookTime")
@@ -48,6 +49,10 @@ public class OrdersController {
         return "Here will be concrete user orders";
     }
 
-
+    @PostMapping("{orderId}/changeStatus")
+    public String changeStatus(@PathVariable("orderId") Long orderId,
+                           @RequestBody String newStatus) {
+        return orderService.changeStatus(orderId,newStatus);
+    }
 
 }

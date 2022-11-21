@@ -1,10 +1,14 @@
 package com.carservice.CarService.data;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity(name="orders")
 public class Order {
 
@@ -31,7 +35,12 @@ public class Order {
     private User user;
 
     @Column
+    private Date date;
+
+    @Column
     private Status status;
+
+
 
 
 }

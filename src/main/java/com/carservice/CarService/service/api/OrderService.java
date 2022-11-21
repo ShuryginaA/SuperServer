@@ -11,5 +11,7 @@ public interface OrderService {
 
     void submit(List<Order> orders);
 
+    String changeStatus(Long id, String newStatus);
+
     List<Order> getAllOrders();
 }
