@@ -55,6 +55,9 @@ public class AuthController {
                     authentication),
                     userService.findUserByUsername(authData.getUsername()).getId());
         }
+        if(userService.findUserByUsername(authData.getUsername())==null){
+             return new AuthDto("Unauthorized",null);
+        }
         return new AuthDto(authenticationService.getRoleFromAuth(
                 securityService.authenticate(authData)),
                 userService.findUserByUsername(authData.getUsername()).getId());

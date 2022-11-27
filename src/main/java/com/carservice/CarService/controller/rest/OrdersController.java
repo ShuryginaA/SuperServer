@@ -37,7 +37,6 @@ public class OrdersController {
     @PostMapping("{clientId}/bookTime")
     public String bookTime(@PathVariable("clientId") Long clientId,
                            @RequestBody String time) {
-        LocalTime t = LocalTime.parse(time) ;
         orderService.submit(new Order("Диагностика",
                 userRepository.findById(clientId).get(),
                 Order.Status.CREATED));
