@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor
 @Entity(name="orders")
 public class Order {
 
@@ -35,7 +35,7 @@ public class Order {
     private User user;
 
     @Column
-    private Date date;
+    private String date;
 
     @Column
     private Status status;

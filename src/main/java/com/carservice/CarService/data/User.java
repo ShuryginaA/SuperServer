@@ -35,6 +35,9 @@ public class User implements UserDetails {
     )
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Order> orders;
+
     public User(String username, String password,String fullName, String phoneNumber, String email) {
         this.username = username;
         this.fullName = fullName;
