@@ -57,18 +57,15 @@ public class OrdersController {
         return orderService.submit(orderEntity);
     }
 
-//    @PostMapping("/update")
-//    public String update(@RequestBody UpdateOrderDto dto) {
-//        Order orderEntity=new Order();
-//        Optional<User> user=orderRepository.findById(dto.getId());
-//        if(!user.isPresent()){
-//            return "Error:no such user";
-//        }
-//        orderEntity.setUser(user.get());
-//        orderEntity.setDate(dto.getDate());
-//        orderEntity.setStatus(Order.Status.CREATED);
-//        return orderService.submit(orderEntity);
-//    }
+    @PostMapping("/update")
+    public String update(@RequestBody UpdateOrderDto dto) {
+        Optional<Order> order=orderRepository.findById(dto.getId());
+        if(!order.isPresent()){
+            return "Error:no such order";
+        }
+        order.get().setDate(dto.getNewDateAndTime());
+        return orderService.submit(order.get());
+    }
 
     @PostMapping("{clientId}/bookTime")
     public String bookTime(@PathVariable("clientId") Long clientId,
@@ -77,11 +74,6 @@ public class OrdersController {
                 userRepository.findById(clientId).get(),
                 Order.Status.CREATED));
         return "Success";
-    }
-
-    @GetMapping("/getUserOrders")
-    public String getUserOrders() {
-        return "Here will be concrete user orders";
     }
 
     @PostMapping("{orderId}/changeStatus")

@@ -1,6 +1,7 @@
 package com.carservice.CarService.service.impl;
 
 import com.carservice.CarService.data.Order;
+import com.carservice.CarService.data.dto.OrderDto;
 import com.carservice.CarService.repositories.OrderRepository;
 import com.carservice.CarService.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -42,5 +44,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public List<OrderDto> getAllUserOrders(String id) {
+        List<OrderDto> list=orderRepository.findAll().stream()
+                .filter(o->o.getUser().getId().equals(Long.parseLong(id)))
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
+        return list;
     }
 }

@@ -1,12 +1,11 @@
 package com.carservice.CarService.data;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity(name="callback")
 public class CallBack {
