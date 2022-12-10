@@ -25,6 +25,10 @@ public class CallbackServiceImpl implements CallbackService {
         CallBackDto callbackDto;
         try {
             callbackDto = objectMapper.readValue(callBack,CallBackDto.class);
+            if (callbackDto.getName().isEmpty() ||
+                        callbackDto.getPhone().isEmpty()) {
+                return "Data callback entered uncorrected";
+            }
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
             return "Error occurred";

@@ -1,6 +1,7 @@
 package com.carservice.CarService.service.impl;
 
 import com.carservice.CarService.data.Role;
+import com.carservice.CarService.exceptions.AuthenticationException;
 import com.carservice.CarService.service.api.AuthenticationService;
 import com.carservice.CarService.service.api.UserService;
 import org.hibernate.annotations.NotFound;
@@ -27,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService = new UserServiceImpl();
 
     @Autowired
     private UserService userService;
@@ -50,7 +51,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void autoLogin(String username, String password) {
+    public void autoLogin(String username, String password) throws AuthenticationException {
+
+        if ( username.isEmpty() ||
+                password.isEmpty()) {
+            throw new AuthenticationException("Data user entered uncorrected");
+        }
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 userDetails, password, userDetails.getAuthorities()

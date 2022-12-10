@@ -5,6 +5,7 @@ import com.carservice.CarService.data.User;
 import com.carservice.CarService.data.dto.ForSavingOrderDto;
 import com.carservice.CarService.data.dto.OrderDto;
 import com.carservice.CarService.data.dto.UpdateOrderDto;
+import com.carservice.CarService.exceptions.AuthenticationException;
 import com.carservice.CarService.repositories.OrderRepository;
 import com.carservice.CarService.repositories.UserRepository;
 import com.carservice.CarService.service.api.OrderService;
@@ -54,7 +55,11 @@ public class OrdersController {
         orderEntity.setUser(user.get());
         orderEntity.setDate(dto.getDate());
         orderEntity.setStatus(Order.Status.CREATED);
-        return orderService.submit(orderEntity);
+        try {
+            return orderService.submit(orderEntity);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/update")
@@ -64,15 +69,23 @@ public class OrdersController {
             return "Error:no such order";
         }
         order.get().setDate(dto.getNewDateAndTime());
-        return orderService.submit(order.get());
+        try {
+            return orderService.submit(order.get());
+        } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("{clientId}/bookTime")
     public String bookTime(@PathVariable("clientId") Long clientId,
                            @RequestBody String time) {
-        orderService.submit(new Order("Диагностика",
-                userRepository.findById(clientId).get(),
-                Order.Status.CREATED));
+        try {
+            orderService.submit(new Order("Диагностика",
+                    userRepository.findById(clientId).get(),
+                    Order.Status.CREATED));
+        } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
         return "Success";
     }
 

@@ -29,10 +29,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public void saveUser(User user) throws AuthenticationException {
+
+        if ( user.getUsername().isEmpty() ||
+                user.getPassword().isEmpty()) {
+            throw new AuthenticationException("Data user entered uncorrected");
+        }
+
         if (user.getRoles() == null)
             throw new AuthenticationException("User " + user.getUsername() + " must have roles");
 

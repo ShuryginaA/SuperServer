@@ -1,5 +1,6 @@
 package com.carservice.CarService.service.api;
 
+import com.carservice.CarService.exceptions.AuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +12,7 @@ public interface AuthenticationService {
 
     Collection<? extends GrantedAuthority> getLoggedUserRoles();
 
-    void autoLogin(String username, String password);
+    void autoLogin(String username, String password) throws AuthenticationException;
 
     void updateAuthoritiesInSecurityContext(Authentication authentication);
 
