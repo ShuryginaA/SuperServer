@@ -94,12 +94,6 @@ public class OrderTest {
 		}
 	}
 
-	@DisplayName("Order_change_status_success")
-	@Test
-	void Order_change_status_success() {
-		assertEquals("Success", orderService.changeStatus(Long.parseLong("1"), "В работе"));
-	}
-
 	@DisplayName("Order_change_status_failed")
 	@Test
 	void Order_change_success() {

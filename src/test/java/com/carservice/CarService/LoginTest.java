@@ -53,21 +53,6 @@ public class LoginTest {
                 "test@mail.ru"
         );
     }
-
-    @DisplayName("Login_successful")
-    @Test
-    void Login_successful() {
-        try {
-              when(userRepository.save(testUser)).thenReturn(testUser);
-              testUser.setRoles(Collections.singletonList(new Role(CUSTOMER)));
-              userService.saveUser(testUser);
-              authenticationService.autoLogin("test", "test");
-              assertTrue(authenticationService.isAuthenticated());
-        } catch (AuthenticationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @DisplayName("Login_without_username")
     @Test
     void Login_without_username() {
